@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>E-commerce Spring MVC</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.css">
+		
+		<style>
+			:root {
+				--primary-color: #6aa84f;
+				--secondary-color: #3d85c6;
+				--accent-color: #e69138;
+				--dark-color: #2d2d2d;
+				--light-color: #f3f3f3;
+			}
+			
+			.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+				text-transform: none;
+				letter-spacing: normal;
+			}
+			
+			.reveal h1 {
+				font-size: 2.5em;
+				color: var(--primary-color);
+			}
+			
+			.reveal h2 {
+				font-size: 1.8em;
+				color: var(--secondary-color);
+			}
+			
+			.reveal h3 {
+				color: var(--accent-color);
+			}
+			
+			.reveal pre {
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+				border-radius: 5px;
+			}
+			
+			.reveal pre code {
+				padding: 20px;
+				max-height: 400px;
+			}
+			
+			.grid-container {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 20px;
+				width: 100%;
+			}
+			
+			.emoji-title {
+				font-size: 120%;
+				margin-right: 10px;
+			}
+			
+			.badge {
+				display: inline-block;
+				padding: 5px 10px;
+				margin: 5px;
+				font-size: 0.7em;
+				background-color: var(--secondary-color);
+				color: white;
+				border-radius: 15px;
+			}
+			
+			.boxes {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+			}
+			
+			.box {
+				padding: 20px;
+				margin: 10px;
+				background: rgba(255, 255, 255, 0.1);
+				border-radius: 5px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+				width: 45%;
+				box-sizing: border-box;
+			}
+			
+			.rounded-image {
+				border-radius: 10px;
+				max-width: 90%;
+				box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+			}
+			
+			.pattern-box {
+				margin: 10px;
+				padding: 20px;
+				background: rgba(106, 168, 79, 0.2);
+				border-radius: 10px;
+				border-left: 5px solid var(--primary-color);
+			}
+			
+			.architecture-diagram {
+				font-family: monospace;
+				font-size: 0.7em;
+				line-height: 1.2;
+				text-align: left;
+				margin: 0 auto;
+				background-color: rgba(0,0,0,0.5);
+				border-radius: 10px;
+				padding: 20px;
+				max-width: 90%;
+				white-space: pre;
+			}
+			
+			.entity-diagram {
+				font-family: monospace;
+				font-size: 0.7em;
+				line-height: 1.2;
+				text-align: left;
+				margin: 0 auto;
+				background-color: rgba(0,0,0,0.5);
+				border-radius: 10px;
+				padding: 20px;
+				max-width: 90%;
+				white-space: pre;
+			}
+			
+			.footer {
+				position: fixed;
+				bottom: 10px;
+				right: 10px;
+				font-size: 0.5em;
+				opacity: 0.7;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- Slide 1: Portada -->
+				<section>
+					<h1>🚀 E-commerce Spring MVC</h1>
+					<h3>Arquitectura multicapa para tienda online</h3>
+					<div style="margin-top: 40px;">
+						<span class="badge">Spring Boot 3.1.x</span>
+						<span class="badge">Java 17</span>
+						<span class="badge">MVC</span>
+						<span class="badge">Design Patterns</span>
+					</div>
+					<div style="margin-top: 80px; font-size: 0.7em; opacity: 0.7;">
+						<p>Mayo 2025</p>
+					</div>
+				</section>
+
+				<!-- Slide 2: Descripción del Proyecto -->
+				<section>
+					<h2>📝 Descripción del Proyecto</h2>
+					<div class="pattern-box">
+						<p>Sistema e-commerce completo basado en Spring Boot para despliegue en Tomcat.</p>
+						<p>Implementación rigurosa de patrones arquitectónicos y de diseño.</p>
+						<p>Enfoque en prácticas SOLID y buena arquitectura de software.</p>
+					</div>
+				</section>
+
+
+				<section>
+					<div style="margin-top: 30px;">
+						<h3>Objetivo Principal</h3>
+						<p>Demostrar la aplicación práctica de patrones de diseño en un contexto real de negocio.</p>
+					</div>
+				</section>
+
+
+
+				<!-- Slide 3: Arquitectura Multicapa -->
+				<section>
+					<h2>🏗️ Arquitectura Multicapa</h2>
+					<div class="architecture-diagram">
+┌───────────────────────────────────────────────────────┐
+│                  Capa de Persistencia                 │
+│                ┌─────────────────────┐                │
+│                │     Base de datos   │                │
+│                └─────────────────────┘                │
+└───────────────────────────────────────────────────────┘
+					</div>
+				</section>
+				<section>
+					<h2>🏗️ Arquitectura Multicapa</h2>
+					<div class="architecture-diagram">
+
+┌───────────────────────────────────────────────────────┐
+│                    Capa de Modelo                     │
+│  ┌─────────────┐ ┌────────────┐ ┌───────────────┐     │
+│  │ Usuario     │ │ Servicio   │ │ CarritoCompra │     │
+│  └─────────────┘ └────────────┘ └───────────────┘     │
+└───────────────────────────────────────────────────────┘
+					</div>
+				</section>
+				<section>
+					<h2>🏗️ Arquitectura Multicapa</h2>
+					<div class="architecture-diagram">
+┌───────────────────────────────────────────────────────┐
+│                 Capa de Repositorio                   │
+│   ┌─────────────┐ ┌────────────┐ ┌────────────────┐   │
+│   │ UsuarioRepo │ │ ServicioRepo│ │ CarritoRepo   │   │
+│   └─────────────┘ └────────────┘ └────────────────┘   │
+└───────────────────────────────────────────────────────┘
+					</div>
+				</section>
+				<section>
+					<h2>🏗️ Arquitectura Multicapa</h2>
+					<div class="architecture-diagram">
+┌───────────────────────────────────────────────────────┐
+│                   Capa de Servicio                    │
+│   ┌─────────────┐ ┌────────────┐ ┌────────────────┐   │
+│   │ Autenticación│ │ Compras    │ │ Gestión       │   │
+│   └─────────────┘ └────────────┘ └────────────────┘   │
+└───────────────────────────────────────────────────────┘
+					</div>
+				</section>
+				<section>
+					<h2>🏗️ Arquitectura Multicapa</h2>
+					<div class="architecture-diagram">
+┌───────────────────────────────────────────────────────┐
+│                   Capa de Presentación                │
+│  ┌─────────────┐ ┌────────────┐ ┌──────────────────┐  │
+│  │ Thymeleaf   │ │ HTML/CSS   │ │ Bootstrap        │  │
+│  └─────────────┘ └────────────┘ └──────────────────┘  │
+└───────────────────────────────────────────────────────┘
+                         ▲
+                         │ 
+                         ▼
+┌───────────────────────────────────────────────────────┐
+│                   Capa de Controlador                 │
+│  ┌─────────────┐ ┌────────────┐ ┌──────────────────┐  │
+│  │ AuthCtrl    │ │ CartCtrl   │ │ DashboardCtrl    │  │
+│  └─────────────┘ └────────────┘ └──────────────────┘  │
+└───────────────────────────────────────────────────────┘
+					</div>
+				</section>
+
+				<!-- Slide 4: Patrón MVC -->
+				<section>
+					<h2>🏛️ Patrón MVC</h2>
+					<div class="grid-container">
+						<div>
+							<h3>Modelo</h3>
+							<pre><code class="language-java">@Entity
+@Table(name = "servicios")
+public class Servicio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    
+    private String nombre;
+    private String descripcion;
+    private String categoria;
+    // ...
+}</code></pre>
+						</div>
+					</div>
+				</section>
+
+
+
+					<!-- Slide 4: Patrón MVC -->
+					<section>
+						<h2>🏛️ Patrón MVC</h2>
+						<div class="grid-container">
+							<div>
+								<h3>Controlador</h3>
+								<pre><code class="language-java">@Controller
+	@RequestMapping("/dashboard")
+	public class DashboardController {
+		@Autowired
+		private ServicioRepository servicioRepository;
+		
+		@GetMapping
+		public String dashboard(Model model, HttpSession session) {
+			// Verificar autenticación
+			if (!isAuthenticated(session)) {
+				return "redirect:/";
+			}
+			
+			// Obtener servicios
+			List<Servicio> servicios = servicioRepository.findByActivoTrue();
+			model.addAttribute("servicios", servicios);
+			
+			return "dashboard"; // Vista
+		}
+	}</code></pre>
+							</div>
+						</div>
+					</section>
+
+				<!-- Slide 5: Patrón Repository -->
+				<section>
+					<h2>📋 Patrón Repository</h2>
+					<div class="pattern-box">
+						<p>Abstrae la lógica de acceso a datos proporcionando una interfaz uniforme para operaciones CRUD y consultas personalizadas.</p>
+					</div>
+					<pre><code class="language-java">@Repository
+public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
+    List<Servicio> findByActivoTrue();
+    List<Servicio> findByCategoria(String categoria);
+}
+
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+    Optional<Usuario> findByEmail(String email);
+    boolean existsByEmail(String email);
+}
+
+@Repository
+public interface CarritoCompraRepository extends JpaRepository<CarritoCompra, Integer> {
+    List<CarritoCompra> findByUsuarioIdAndEstado(Integer usuarioId, EstadoCarrito estado);
+    Optional<CarritoCompra> findByUsuarioIdAndServicioIdAndEstado(
+        Integer usuarioId, Integer servicioId, EstadoCarrito estado);
+}</code></pre>
+				</section>
+
+
+
+				<!-- Slide 7: Patrón State -->
+				<section>
+					<h2>🧬 Patrón State</h2>
+					<div class="pattern-box">
+						<p>Permite que un objeto modifique su comportamiento cuando su estado interno cambia. El objeto parecerá cambiar de clase.</p>
+					</div>
+					<pre><code class="language-java">public enum EstadoCarrito {
+    EN_PROCESO,
+    COMPRADO,
+    EXPIRADO
+}
+
+@PostMapping("/procesar-compra")
+public String procesarCompra(HttpSession session) {
+    // Cambio de estado de EN_PROCESO a COMPRADO
+    List<CarritoCompra> items = carritoRepository.findByUsuarioIdAndEstado(
+            (Integer) session.getAttribute("usuarioId"), 
+            EstadoCarrito.EN_PROCESO);
+    
+    for (CarritoCompra item : items) {
+        // Cambio de estado
+        item.setEstado(EstadoCarrito.COMPRADO);
+        item.setFechaCompra(LocalDateTime.now());
+        
+        // Cálculo de fecha de expiración
+        if (item.getTipoPlan().equals("MENSUAL")) {
+            item.setFechaExpiracion(LocalDateTime.now().plusMonths(1));
+        } else if (item.getTipoPlan().equals("TRIMESTRAL")) {
+            item.setFechaExpiracion(LocalDateTime.now().plusMonths(3));
+        } else if (item.getTipoPlan().equals("ANUAL")) {
+            item.setFechaExpiracion(LocalDateTime.now().plusYears(1));
+        }
+        
+        carritoRepository.save(item);
+    }
+    
+    return "redirect:/mis-compras";
+}</code></pre>
+				</section>
+
+
+				<!-- Slide 9: Patrón DTO -->
+				<section>
+					<h2>💼 Data Transfer Object (DTO)</h2>
+					<div class="pattern-box">
+						<p>Objetos que transportan datos entre subsistemas, minimizando las llamadas de red y encapsulando la serialización.</p>
+					</div>
+					<pre><code class="language-java">public class RegistroDTO {
+    @NotBlank(message = "El nombre es obligatorio")
+    private String nombre;
+    
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "El formato del email no es válido")
+    private String email;
+    
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    private String password;
+    
+    // getters y setters
+}
+
+@PostMapping("/registro")
+public String registro(@Valid @ModelAttribute RegistroDTO registroDTO,
+                     BindingResult result,
+                     RedirectAttributes redirectAttributes) {
+    // Validar y procesar el DTO
+    if (result.hasErrors()) {
+        return "index";
+    }
+    
+    // ...
+}</code></pre>
+				</section>
+
+				<!-- Slide 10: Demostración - Autenticación -->
+				<section>
+					<h2>🔐 Autenticación de Usuarios</h2>
+					<img class="rounded-image" src="https://github.com/user-attachments/assets/2a14c2d8-bdf0-4cea-b41e-56838a34aff1" alt="Demostración de Autenticación">
+					<div class="pattern-box" style="margin-top: 20px;">
+						<p>Implementación de autenticación segura con BCrypt para el cifrado de contraseñas y gestión de sesiones con HttpSession.</p>
+					</div>
+				</section>
+
+				<!-- Slide 11: Demostración - Catálogo -->
+				<section>
+					<h2>🛍️ Catálogo y Detalles de Servicio</h2>
+					<img class="rounded-image" src="https://github.com/user-attachments/assets/540a53f8-d340-4413-8488-050492c7fdd9" alt="Demostración de Catálogo">
+					<div class="pattern-box" style="margin-top: 20px;">
+						<p>Implementación del patrón Strategy para la selección dinámica de precios según el plan elegido.</p>
+					</div>
+				</section>
+
+				<!-- Slide 12: Modelo de Datos -->
+				<section>
+					<h2>📊 Modelo de Datos</h2>
+					<img  src="https://github.com/user-attachments/assets/231177c0-7ed7-455a-8b1e-ad4c33b0aca3" alt="tablas">
+				</section>
+
+				<!-- Slide 13: Características Principales -->
+				<section>
+					<h2>✨ Características Principales</h2>
+					<div class="boxes">
+						<div class="box">
+							<h3>🔐 Autenticación</h3>
+							<p>Sistema completo con HttpSession y BCrypt</p>
+						</div>
+						<div class="box">
+							<h3>🛍️ Catálogo</h3>
+							<p>Visualización con filtrado por categorías</p>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>✨ Características Principales</h2>
+					<div class="boxes">
+						<div class="box">
+							<h3>🛒 Carrito avanzado</h3>
+							<p>Diferentes planes con cálculo automático de precios</p>
+						</div>
+						<div class="box">
+							<h3>📊 Suscripciones</h3>
+							<p>Gestión de ciclo de vida de suscripciones</p>
+						</div>
+					</div>
+				</section>
+				<!-- Slide 14: Módulos Principales -->
+				<section>
+					<h2>🧩 Módulos Principales</h2>
+					<div class="boxes">
+						<div class="box">
+							<h3>Auth Controller</h3>
+							<p>Gestión de registro, login y sesiones</p>
+						</div>
+						<div class="box">
+							<h3>Dashboard Controller</h3>
+							<p>Visualización y filtrado de servicios</p>
+						</div>
+					
+					</div>
+				</section>
+				<section>
+					<h2>🧩 Módulos Principales</h2>
+					<div class="boxes">
+			
+						<div class="box">
+							<h3>Carrito Controller</h3>
+							<p>Gestión del carrito y compras</p>
+						</div>
+						<div class="box">
+							<h3>MisCompras Controller</h3>
+							<p>Visualización de compras realizadas</p>
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Slide 15: Tecnologías -->
+				<section>
+					<h2>🛠️ Tecnologías</h2>
+					<div class="boxes">
+						<div class="box">
+							<h3>Backend</h3>
+							<p>Java 17, Spring Boot 3.1.x</p>
+						</div>
+						<div class="box">
+							<h3>Frontend</h3>
+							<p>Thymeleaf, HTML5, CSS3, Bootstrap</p>
+						</div>
+						<div class="box">
+							<h3>Persistencia</h3>
+							<p>JPA/Hibernate, H2/MySQL</p>
+						</div>
+						<div class="box">
+							<h3>Herramientas</h3>
+							<p>Maven, Git, Tomcat</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Slide 16: Conclusiones -->
+				<section>
+					<h2>🎯 Conclusiones</h2>
+					<div class="pattern-box">
+						<p>La implementación rigurosa de patrones de diseño ha permitido crear un sistema e-commerce:</p>
+						<ul>
+							<li>Altamente mantenible y extensible</li>
+							<li>Con separación clara de responsabilidades</li>
+							<li>Basado en principios SOLID</li>
+							<li>Con mecanismos robustos para la gestión de estados</li>
+							<li>Preparado para evolucionar con nuevas funcionalidades</li>
+						</ul>
+					</div>
+					<div style="margin-top: 40px;">
+						<h3>Proyecto educativo para demostrar patrones de diseño en Spring Boot</h3>
+					</div>
+				</section>
+
+				<!-- Slide 17: Gracias -->
+				<section>
+					<h1>¡Gracias!</h1>
+					<div style="margin-top: 40px;">
+						<p>E-commerce Spring MVC</p>
+						<p>Arquitectura multicapa para tienda online</p>
+					</div>
+					<div style="margin-top: 40px;">
+						<pre style="box-shadow: none; background: none;">
+ _____                                            
+|  ___|                                           
+| |__ ___ ___  _ __ ___  _ __ ___   ___ _ __ ___ 
+|  __/ __/ _ \| '_ ` _ \| '_ ` _ \ / _ \ '__/ __|
+| |_| (_| (_) | | | | | | | | | | |  __/ |  \__ \
+\____\___\___/|_| |_| |_|_| |_| |_|\___|_|  |___/
+						</pre>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.js"></script>
+		<script>
+			// Más información sobre inicialización y configuración:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				// Más opciones de transición: https://revealjs.com/transitions/
+				
+				// Ajustar automáticamente el tamaño del contenido
+				autoSlide: 0,
+				autoSlideStoppable: true,
+				
+				// Mostrar barra de navegación
+				controls: true,
+				
+				// Mostrar barra de progreso
+				progress: true,
+				
+				// Mostrar número de diapositiva
+				slideNumber: 'c/t',
+				
+				// Mostrar la visión general de diapositivas pulsando "Esc"
+				overview: true,
+				
+				// Permitir navegación con teclado
+				keyboard: true,
+				
+				// Permitir zoom al pulsar alt+click
+				zoom: true,
+				
+				// Plugins
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
