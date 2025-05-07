@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<title>Herramientas de Pruebas Unitarias: Mocha y Mockito</title>
+	<meta name="description" content="Presentación sobre herramientas de pruebas unitarias">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- CSS de Reveal.js -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/night.min.css" id="theme">
+
+	<!-- Highlight.js para resaltar código -->
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+
+	<style>
+		/* Estilos personalizados */
+		.reveal h1,
+		.reveal h2 {
+			text-transform: none;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		}
+
+		.reveal h3,
+		.reveal h4 {
+			text-transform: none;
+			color: #42affa;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+		}
+
+		.reveal pre code {
+			padding: 15px;
+			border-radius: 5px;
+			max-height: 400px;
+			font-size: 0.9em;
+		}
+
+		.reveal section img {
+			border: none;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+			max-height: 60vh;
+		}
+
+		.feature-box {
+			background-color: rgba(65, 131, 196, 0.2);
+			border-radius: 10px;
+			padding: 20px;
+			margin: 10px 0;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+
+		.mocha-color {
+			color: #8d6748;
+		}
+
+		.mockito-color {
+			color: #6db33f;
+		}
+
+		.highlight-text {
+			color: #ff9500;
+		}
+
+		.center-content {
+			text-align: center;
+		}
+
+		.two-columns {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.column {
+			width: 48%;
+		}
+
+		.logo {
+			background-color: white;
+			padding: 20px;
+			border-radius: 10px;
+			display: inline-block;
+			margin-bottom: 20px;
+		}
+
+		.quote {
+			font-style: italic;
+			background: rgba(255, 255, 255, 0.1);
+			padding: 10px 20px;
+			border-radius: 5px;
+			position: relative;
+			margin: 20px 0;
+		}
+
+		.quote:before {
+			content: '"';
+			font-size: 2em;
+			position: absolute;
+			left: 5px;
+			top: -5px;
+			opacity: 0.5;
+		}
+
+		code {
+			border-radius: 3px;
+			padding: 0 5px;
+		}
+
+		.smaller-text {
+			font-size: 0.8em;
+		}
+
+		.vs-container {
+			display: flex;
+			justify-content: space-around;
+			margin-top: 30px;
+		}
+
+		.vs-item {
+			width: 45%;
+			padding: 15px;
+			border-radius: 8px;
+		}
+
+		.js-side {
+			background-color: rgba(240, 219, 79, 0.2);
+		}
+
+		.java-side {
+			background-color: rgba(107, 179, 0, 0.2);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- PORTADA -->
+			<section data-background-gradient="linear-gradient(135deg, #1a237e, #311b92)">
+				<h1>Herramientas de Pruebas Unitarias</h1>
+				<div class="vs-container fragment">
+					<div class="vs-item js-side">
+						<h2 class="mocha-color">Mocha</h2>
+						<h4>JavaScript</h4>
+					</div>
+					<div class="vs-item java-side fragment">
+						<h2 class="mockito-color">Mockito</h2>
+						<h4>Java</h4>
+					</div>
+				</div>
+				<p class="fragment" style="margin-top: 40px;">Testing moderno para diferentes ecosistemas</p>
+			</section>
+
+			<!-- INTRODUCCIÓN -->
+			<section>
+				<h2>¿Por qué probar nuestro código?</h2>
+				<div class="fragment fade-up">
+					<ul>
+						<li>Detectar errores temprano</li>
+						<li>Garantizar comportamientos esperados</li>
+						<li>Facilitar refactorización segura</li>
+						<li>Documentar el comportamiento del código</li>
+					</ul>
+				</div>
+				<div class="feature-box fragment fade-in">
+					<p>Veremos dos frameworks líderes para pruebas unitarias:</p>
+					<p><strong class="mocha-color">Mocha</strong> para JavaScript y <strong
+							class="mockito-color">Mockito</strong> para Java</p>
+				</div>
+				<aside class="notes">
+					Hablar sobre la importancia del testing en el desarrollo de software moderno.
+					Mencionar que ambas herramientas son estándares en sus ecosistemas.
+				</aside>
+			</section>
+
+			<!-- SECCIÓN MOCHA -->
+			<section>
+				<section data-background-color="#8d6748">
+					<h2>Mocha</h2>
+					<h3>Framework de Pruebas para JavaScript</h3>
+					<img src="https://mochajs.org/images/mocha-logo.svg" alt="Logo de Mocha" class="logo fragment">
+					<p class="fragment">Flexible, potente y popular</p>
+				</section>
+
+				<!-- MOCHA: ORÍGENES E INICIOS -->
+				<section>
+					<h2>Orígenes e Inicios</h2>
+					<ul>
+						<li class="fragment">Lanzado en <strong>2011</strong> por <strong>TJ Holowaychuk</strong></li>
+						<li class="fragment">Proyecto Open Source bajo <strong>OpenJS Foundation</strong></li>
+						<li class="fragment">Licencia MIT</li>
+						<li class="fragment">Ampliamente respaldado por la comunidad JavaScript</li>
+					</ul>
+					<div class="feature-box fragment">
+						<h4>Instalación básica:</h4>
+						<pre><code class="bash">npm install -g mocha</code></pre>
+					</div>
+					<aside class="notes">
+						Mencionar que TJ Holowaychuk es un prolífico desarrollador de JavaScript, conocido por múltiples
+						proyectos populares.
+					</aside>
+				</section>
+
+				<!-- MOCHA: MOTIVACIÓN -->
+				<section data-auto-animate>
+					<h2 data-id="motivacion">Motivación de su creación</h2>
+					<div class="fragment fade-in">
+						<p>Antes de Mocha:</p>
+						<ul>
+							<li>No había un estándar claro para pruebas en Node.js</li>
+							<li>Soporte limitado para pruebas asíncronas</li>
+						</ul>
+					</div>
+					<div class="fragment fade-up">
+						<p>Mocha buscaba:</p>
+						<ul>
+							<li>Proporcionar un marco simple y flexible</li>
+							<li>Facilitar pruebas de código asíncrono (callbacks, promises)</li>
+							<li>Mejorar el flujo de trabajo de testeo</li>
+						</ul>
+					</div>
+					<div class="fragment fade-up">
+						<p>Extendió ideas de otros marcos (como Jasmine o QUnit) pero optimizado para Node.js</p>
+						<p>En la documentación se presenta como un <em>"marco de pruebas JavaScript muy popular"</em>
+							que organiza y ejecuta casos de prueba</p>
+					</div>
+				</section>
+
+				<!-- MOCHA: ¿QUÉ ES? -->
+				<section data-auto-animate>
+					<h2 data-id="que-es">¿Qué es y qué problemas resuelve?</h2>
+					<div class="fragment">
+						<p>Framework de pruebas unitarias de JavaScript que permite:</p>
+						<ul>
+							<li>Escribir y ejecutar tests de forma ordenada</li>
+							<li>Probar eficientemente funciones asíncronas</li>
+							<li>Generar reportes flexibles de resultados</li>
+						</ul>
+					</div>
+					<div class="feature-box fragment fade-up">
+						<p>Se definen bloques <code>describe</code> e <code>it</code> (BDD/TDD style) para agrupar y
+							detallar pruebas</p>
+						<p>No impone librerías de aserción ni estilo concreto: puedes usar <code>assert</code>, Chai,
+							Sinon u otra biblioteca de tu elección</p>
+					</div>
+					<div class="feature-box fragment fade-up">
+						<p><strong>Características clave:</strong></p>
+						<ul>
+							<li>Ejecución secuencial de tests</li>
+							<li>Manejo automático de errores no capturados</li>
+							<li>Asignación de errores al test correcto</li>
+						</ul>
+					</div>
+				</section>
+
+				<!-- MOCHA: DÓNDE Y CÓMO SE UTILIZA -->
+				<section>
+					<h2>¿Dónde y cómo se utiliza?</h2>
+					<div class="two-columns">
+						<div class="column fragment fade-right">
+							<h4>Entornos</h4>
+							<ul>
+								<li>Proyectos <strong>Node.js</strong> (backend)</li>
+								<li>Navegadores (con bundlers)</li>
+								<li>Aplicaciones web</li>
+								<li>APIs</li>
+								<li>Librerías JavaScript</li>
+							</ul>
+						</div>
+						<div class="column fragment fade-left">
+							<h4>Integración</h4>
+							<ul>
+								<li>Pipelines CI/CD (Travis, Jenkins)</li>
+								<li>NPM scripts</li>
+								<li>Ejecutar con: <code>mocha</code></li>
+								<li>Directorio por defecto: <code>test/</code></li>
+							</ul>
+						</div>
+					</div>
+					<div class="fragment fade-up">
+						<p>Instalación y uso básico:</p>
+						<ol>
+							<li>Instalar la dependencia <code>mocha</code> en el proyecto</li>
+							<li>Definir directorio de tests (por defecto <code>test/</code>)</li>
+							<li>Ejecutar <code>mocha</code> desde línea de comandos</li>
+							<li>O agregar como script de <code>npm</code>, p.ej:</li>
+						</ol>
+						<pre><code class="json">{
+  "scripts": {
+    "test": "mocha"
+  }
+}</code></pre>
+					</div>
+				</section>
+
+				<!-- MOCHA: INSTALACIÓN Y PRIMER USO -->
+				<section>
+					<h2>Instalación y primer uso</h2>
+					<div class="fragment">
+						<h4>Instalación típica:</h4>
+						<pre><code class="bash">npm init -y           # Inicializar proyecto Node
+npm install --save-dev mocha</code></pre>
+					</div>
+					<div class="fragment">
+						<h4>Ejecutar tests:</h4>
+						<pre><code class="bash">$ mocha</code></pre>
+					</div>
+					<div class="feature-box fragment fade-up">
+						<h4>Output típico de un test exitoso:</h4>
+						<pre><code class="text">$ mocha
+.      # (se muestra un punto)
+1 test complete (1ms)</code></pre>
+					</div>
+				</section>
+
+				<!-- MOCHA: EJEMPLO PRÁCTICO (CÓDIGO) -->
+				<section data-auto-animate>
+					<h2 data-id="ejemplo-codigo">Ejemplo práctico de testeo</h2>
+					<div class="fragment">
+						<h4>Módulo a probar (<code>sum.js</code>):</h4>
+						<pre><code class="javascript">function sum(a, b) {
+  return a + b;
+}
+module.exports = sum;</code></pre>
+					</div>
+					<div class="fragment">
+						<h4>Test (<code>test/sum.test.js</code>):</h4>
+						<pre><code class="javascript">const sum = require('../sum');
+const assert = require('assert');
+
+describe('sum()', function() {
+  it('debería sumar dos números', function() {
+    assert.strictEqual(sum(2, 3), 5);
+  });
+});</code></pre>
+					</div>
+				</section>
+
+				<!-- MOCHA: EJEMPLO PRÁCTICO (SALIDA) -->
+				<section data-auto-animate>
+					<h2 data-id="ejemplo-codigo">Ejemplo práctico (salida)</h2>
+					<div class="fragment">
+						<h4>Al ejecutar <code>mocha</code>:</h4>
+						<pre><code class="text">  sum()
+    ✓ debería sumar dos números
+
+  1 passing (5ms)</code></pre>
+					</div>
+					<div class="feature-box fragment fade-up">
+						<p>✓ indica que la prueba <strong>pasó</strong></p>
+						<p>Si la prueba falla, mostraría un error indicando la diferencia entre valor esperado y real
+						</p>
+						<p>La salida está coloreada: verde para éxito, rojo para fallos</p>
+					</div>
+				</section>
+
+				<!-- MOCHA: INTEGRACIONES Y CARACTERÍSTICAS ADICIONALES -->
+				<section>
+					<h2>Integraciones y características adicionales</h2>
+					<div class="fragment fade-in">
+						<h4>Agnóstico en librería de aserciones:</h4>
+						<ul>
+							<li><strong>Chai</strong>: para expect/should</li>
+							<li><strong>Sinon</strong>: para mocks/espías</li>
+						</ul>
+					</div>
+					<div class="fragment fade-up">
+						<h4>Características avanzadas:</h4>
+						<ul>
+							<li>Hooks (<code>before</code>, <code>after</code>, etc.) para setup/teardown global o por
+								caso</li>
+							<li>Configuración por archivo (<code>.mocharc.js</code>)</li>
+							<li>Reportes integrables (XUnit, JSON, cobertura de código)</li>
+						</ul>
+					</div>
+					<div class="fragment fade-up">
+						<p>Facilita estructurar tests complejos y se integra bien con el ecosistema JavaScript moderno
+							(Node, Babel, TypeScript, etc.)</p>
+					</div>
+				</section>
+
+				<!-- MOCHA: RECURSOS -->
+				<section>
+					<h2>Recursos y enlaces útiles</h2>
+					<ul>
+						<li><a href="https://mochajs.org/" target="_blank"><strong>Documentación oficial:</strong>
+								mochajs.org</a></li>
+						<li><a href="https://www.digitalocean.com/community/tutorials/how-to-test-a-node-js-module-with-mocha-and-assert"
+								target="_blank"><strong>Tutorial en español:</strong> DigitalOcean (Mocha y Assert)</a>
+						</li>
+						<li><a href="https://www.youtube.com/watch?v=-sn3H0V3PuY" target="_blank"><strong>Video
+									Tutorial:</strong> "Pruebas con Mocha y Chai" - YouTube: JoanMedia</a></li>
+						<li><a href="https://github.com/mochajs/mocha" target="_blank"><strong>Repositorio
+									GitHub:</strong> mochajs/mocha</a></li>
+					</ul>
+
+				</section>
+
+				<!-- MOCHA: RESUMEN -->
+				<section data-background-color="#8d6748">
+					<h2>Resumen de Mocha</h2>
+					<div class="quote fragment">
+						"Framework flexible y sencillo para desarrolladores JavaScript"
+					</div>
+					<ul class="fragment">
+						<li>Ideal para desarrolladores JavaScript que necesiten un marco de pruebas flexible y sencillo
+						</li>
+						<li>Facilita la implementación de <strong>TDD/BDD</strong> en Node.js y browser</li>
+						<li>Filosofía de libertad al desarrollador (assertions, estructura)</li>
+						<li>Amplio soporte de comunidad lo hace muy popular</li>
+						<li>Aprender Mocha prepara para trabajar con muchas herramientas de testing en JS</li>
+						<li>Principales ventajas: <strong>sencillez</strong>, manejo nativo de async y capacidad de
+							reporting personalizado</li>
+					</ul>
+				</section>
+			</section>
+
+			<!-- SECCIÓN MOCKITO -->
+			<section>
+				<section data-background-color="#6db33f">
+					<h2 class="mockito-color" style="color: #ffffff;">Mockito</h2>
+					<h3 style="color: #ffffff;">Framework de Mocking para Java</h3>
+					<img src="https://raw.githubusercontent.com/mockito/mockito/main/config/javadoc/resources/org/mockito/logo.png"
+						alt="Logo de Mockito" class="logo fragment">
+					<p class="fragment" style="color: #ffffff;">Simple, limpio y potente</p>
+				</section>
+
+				<!-- MOCKITO: ORÍGENES E INICIOS -->
+				<section>
+					<h2>Orígenes e Inicios</h2>
+					<ul>
+						<li class="fragment">Creado por <strong>Szczepan Faber</strong> (ThoughtWorks) alrededor de 2008
+						</li>
+						<li class="fragment">Basado en proyectos de la <em>Guardian</em> (Londres)</li>
+						<li class="fragment">Proyecto <strong>open source</strong> mantenido por la comunidad</li>
+						<li class="fragment">El autor explicó su necesidad de un nuevo framework tras usar EasyMock</li>
+						<li class="fragment">Actualmente mantenido por Szczepan, Brice Dutheil, Rafael Winterhalter y
+							otros</li>
+						<li class="fragment">Es gratuito, licencia MIT, y se distribuye a través de Maven Central o
+							Gradle</li>
+						<li class="fragment">Para empezar, simplemente se agrega la dependencia
+							<code>mockito-core</code> en el proyecto
+						</li>
+					</ul>
+					<aside class="notes">
+						Mencionar que surgió como alternativa a EasyMock, buscando una API más limpia.
+					</aside>
+				</section>
+
+				<!-- MOCKITO: MOTIVACIÓN -->
+				<section data-auto-animate>
+					<h2 data-id="motivacion-mockito">Motivación de su creación</h2>
+					<div class="fragment fade-in">
+						<p>Mockito surgió para ofrecer:</p>
+						<ul>
+							<li>Una API más sencilla y legible que la de EasyMock (otro <em>framework</em> de mocks)
+							</li>
+							<li>Simplificar el proceso de crear objetos simulados (mocks) en pruebas unitarias</li>
+							<li>Evitar configuraciones verbosas</li>
+						</ul>
+					</div>
+					<div class="fragment fade-up">
+						<p>Mockito permite:</p>
+						<ul>
+							<li>Simular comportamientos de métodos en objetos dependientes de forma limpia</li>
+							<li>Verificar interacciones con métodos</li>
+						</ul>
+					</div>
+					<div class="quote fragment fade-up">
+						"Un framework con una API simple y limpia que evita errores confusos al escribir tests"
+					</div>
+					<p class="fragment">Facilita el desarrollo de pruebas <em>TDD/BDD</em> en aplicaciones Java</p>
+				</section>
+
+				<!-- MOCKITO: ¿QUÉ ES? -->
+				<section data-auto-animate>
+					<h2 data-id="que-es-mockito">¿Qué es y qué problemas resuelve?</h2>
+					<div class="fragment">
+						<p>Mockito es un <strong>framework de mocking para Java</strong> que permite:</p>
+						<ul>
+							<li>Crear <em>mocks</em> (objetos simulados) en tests unitarios</li>
+							<li>Probar unidades de código que dependen de otras clases</li>
+							<li>Reemplazar dependencias (bases de datos, servicios externos, etc.) por dobles de prueba
+							</li>
+						</ul>
+					</div>
+					<div class="feature-box fragment fade-up">
+						<p>Características principales:</p>
+						<ul>
+							<li>Definir comportamiento de métodos simulados: <code>when(...).thenReturn(...)</code></li>
+							<li>Verificar llamadas a métodos: <code>verify(...)</code></li>
+							<li>Aislar la clase bajo prueba</li>
+							<li>Confirmar lógica interna sin requerir el entorno real</li>
+							<li>Mejorar la <strong>legibilidad de las pruebas</strong> comparado con soluciones
+								anteriores</li>
+						</ul>
+					</div>
+				</section>
+
+				<!-- MOCKITO: DÓNDE Y CÓMO SE UTILIZA -->
+				<section>
+					<h2>¿Dónde y cómo se utiliza?</h2>
+					<div class="two-columns">
+						<div class="column fragment fade-right">
+							<h4>Entornos</h4>
+							<ul>
+								<li>Pruebas unitarias de <strong>Java</strong></li>
+								<li>Junto con JUnit (o TestNG)</li>
+								<li>Proyectos Java empresariales</li>
+								<li>Microservicios (incluyendo Spring Boot)</li>
+								<li>Probar servicios, controladores y componentes que dependen de otros</li>
+							</ul>
+						</div>
+						<div class="column fragment fade-left">
+							<h4>Integración</h4>
+							<ul>
+								<li>Dependencia <code>org.mockito:mockito-core</code> en el <em>build</em>
+									(Maven/Gradle)</li>
+								<li>Anotación <code>@Mock</code> para declarar simulaciones</li>
+								<li><code>@InjectMocks</code> para inyectarlas</li>
+								<li>Alternativa: <code>Mockito.mock()</code></li>
+								<li>Ejecución con runner de JUnit normal; no requiere comando especial</li>
+							</ul>
+						</div>
+					</div>
+					<div class="fragment fade-up">
+						<p>Al correr las pruebas, Mockito se encarga internamente de generar los mocks y validar las
+							interacciones</p>
+					</div>
+				</section>
+
+				<!-- MOCKITO: INSTALACIÓN Y CONFIGURACIÓN -->
+				<section>
+					<h2>Instalación y configuración</h2>
+					<div class="fragment">
+						<h4>Maven:</h4>
+						<pre><code class="xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.mockito&lt;/groupId&gt;
+  &lt;artifactId&gt;mockito-core&lt;/artifactId&gt;
+  &lt;version&gt;5.3.1&lt;/version&gt;
+  &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+					</div>
+					<div class="fragment">
+						<h4>Gradle (Kotlin DSL):</h4>
+						<pre><code class="kotlin">testImplementation("org.mockito:mockito-core:5.3.1")</code></pre>
+					</div>
+					<div class="fragment">
+						<h4>Activar con JUnit 5:</h4>
+						<pre><code class="java">@ExtendWith(MockitoExtension.class)
+public class MiTest { ... }</code></pre>
+					</div>
+				</section>
+
+				<!-- MOCKITO: EJEMPLO PRÁCTICO (CONFIGURACIÓN) -->
+				<section data-auto-animate>
+					<h2 data-id="ejemplo-mockito">Ejemplo práctico</h2>
+					<div class="fragment">
+						<h4>Clase a probar:</h4>
+						<pre><code class="java">public class Calculadora {
+  private ServicioExterno servicio;
+  
+  public Calculadora(ServicioExterno servicio) {
+    this.servicio = servicio;
+  }
+  
+  public int duplicarSuma(int a, int b) {
+    int suma = servicio.sumar(a, b);
+    return suma * 2;
+  }
+}</code></pre>
+					</div>
+					<div class="fragment">
+						<h4>Interfaz dependiente:</h4>
+						<pre><code class="java">public interface ServicioExterno {
+  int sumar(int x, int y);
+}</code></pre>
+					</div>
+				</section>
+
+				<!-- MOCKITO: EJEMPLO PRÁCTICO (TEST) -->
+				<section data-auto-animate>
+					<h2 data-id="ejemplo-mockito">Ejemplo práctico (test)</h2>
+					<div class="fragment">
+						<h4>Test con Mockito:</h4>
+						<pre><code class="java">@ExtendWith(MockitoExtension.class)
+public class CalculadoraTest {
+  @Mock private ServicioExterno mockServicio;
+  @InjectMocks private Calculadora calc;
+
+  @Test
+  public void testDuplicarSuma() {
+    // Configurar el comportamiento del mock
+    when(mockServicio.sumar(2, 3)).thenReturn(5);
+    
+    // Ejecutar el método a probar
+    int resultado = calc.duplicarSuma(2, 3);
+    
+    // Verificar el resultado
+    assertEquals(10, resultado);
+    
+    // Verificar la interacción con el mock
+    verify(mockServicio).sumar(2, 3);
+  }
+}</code></pre>
+					</div>
+				</section>
+
+				<!-- MOCKITO: EJEMPLO PRÁCTICO (SALIDA) -->
+				<section>
+					<h2>Ejemplo práctico (salida)</h2>
+					<div class="fragment">
+						<p>Al ejecutar el test con JUnit:</p>
+						<pre><code class="text">CalculadoraTest > testDuplicarSuma() PASSED
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0</code></pre>
+					</div>
+					<div class="feature-box fragment fade-up">
+						<p>Mockito intercepta la llamada a <code>mockServicio.sumar(2,3)</code> y devuelve
+							<code>5</code>
+						</p>
+						<p>JUnit valida que <code>assertEquals(10, resultado)</code> pase</p>
+						<p><code>verify</code> confirma que el método fue llamado con los argumentos correctos</p>
+						<p>Mockito actúa tras bambalinas, sin necesidad de servicio real</p>
+					</div>
+				</section>
+
+				<!-- MOCKITO: CARACTERÍSTICAS ADICIONALES -->
+				<section>
+					<h2>Características adicionales</h2>
+					<div class="fragment fade-in">
+						<h4>Tipos de objetos de prueba:</h4>
+						<ul>
+							<li>Mocks, Spies, Stubs, Captive mocks</li>
+						</ul>
+					</div>
+					<div class="fragment fade-up">
+						<h4>Funcionalidades avanzadas:</h4>
+						<ul>
+							<li>Simular comportamientos de métodos: <code>thenReturn</code>, <code>thenThrow</code></li>
+							<li>Verificar llamadas: cantidad, orden, argumentos</li>
+							<li>Capturar argumentos con <code>ArgumentCaptor</code></li>
+							<li>Modos de llamada básica: <code>strict</code>, <code>lenient</code></li>
+							<li>Matchers para validaciones flexibles: <code>any()</code>, <code>eq()</code></li>
+						</ul>
+					</div>
+					<div class="fragment fade-in">
+						<h4>Documentación y extensiones:</h4>
+						<ul>
+							<li>Documentación oficial incluye buena guía de <em>best practices</em></li>
+							<li>Al ser un proyecto muy usado, existen muchas extensiones y guías</li>
+							<li>Integración con Spring: anotación <code>@MockBean</code></li>
+							<li>JUnit 4: <code>MockitoJUnitRunner</code></li>
+						</ul>
+					</div>
+				</section>
+
+				<!-- MOCKITO: RECURSOS -->
+				<section>
+					<h2>Recursos y enlaces útiles</h2>
+					<ul>
+						<li class="fragment">
+							<a href="https://site.mockito.org/" target="_blank"><strong>Documentación oficial:</strong>
+								site.mockito.org</a> y
+							<a href="https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html"
+								target="_blank">javadoc.io</a>
+						</li>
+						<li class="fragment">
+							<a href="https://www.youtube.com/watch?v=74sClDEYSQ4" target="_blank"><strong>Tutorial en
+									español:</strong> PRUEBAS UNITARIAS en JAVA (JUNIT 5)</a>
+						</li>
+						<li class="fragment">
+							<a href="https://github.com/mockito/mockito" target="_blank"><strong>Repositorio
+									GitHub:</strong> mockito/mockito</a>
+						</li>
+					</ul>
+
+				</section>
+
+				<!-- MOCKITO: RESUMEN -->
+				<section data-background-color="#6db33f">
+					<h2 style="color: #ffffff;">Resumen de Mockito</h2>
+					<div class="quote fragment" style="background: rgba(255,255,255,0.2);">
+						"Facilita las pruebas unitarias en Java al permitir simular dependencias de forma simple"
+					</div>
+					<ul class="fragment" style="color: #ffffff;">
+						<li>API limpia mejora la legibilidad de tests complejos</li>
+						<li>Al dominar Mockito, los desarrolladores pueden crear tests más robustos y centrados en la
+							lógica de negocio</li>
+						<li>Permite aislar entornos externos</li>
+						<li>Estándar en proyectos Java modernos (Spring, Microservicios)</li>
+						<li>Complementa marcos de test como JUnit</li>
+						<li>En conjunto con Mocha (para JS), cubre necesidades fundamentales de testing en aplicaciones
+							web full-stack</li>
+						<li>Ofrece confiabilidad y calidad en el software</li>
+					</ul>
+				</section>
+			</section>
+
+			<!-- COMPARACIÓN -->
+			<section data-background-gradient="linear-gradient(135deg, #8d6748, #6db33f)">
+				<h2>Comparación</h2>
+				<div class="two-columns">
+					<div class="column js-side fragment fade-right">
+						<h3 class="mocha-color">Mocha</h3>
+						<ul>
+							<li>Framework de pruebas completo</li>
+							<li>Enfocado en ejecutar tests</li>
+							<li>Necesita librerías adicionales para assertions</li>
+							<li>Excelente para pruebas asíncronas</li>
+							<li>Ecosistema JavaScript</li>
+						</ul>
+					</div>
+					<div class="column java-side fragment fade-left">
+						<h3 class="mockito-color">Mockito</h3>
+						<ul>
+							<li>Framework de mocking</li>
+							<li>Enfocado en simular dependencias</li>
+							<li>Complementa JUnit</li>
+							<li>Excelente para aislar componentes</li>
+							<li>Ecosistema Java</li>
+						</ul>
+					</div>
+				</div>
+				<div class="feature-box fragment fade-up">
+					<p>Ambos son esenciales para garantizar código de calidad en sus respectivos ecosistemas</p>
+				</div>
+			</section>
+
+			<!-- SLIDE FINAL -->
+			<section data-background-color="#1a237e">
+				<h1>¡Gracias!</h1>
+				<h3>Herramientas de Pruebas Unitarias</h3>
+				<div class="two-columns">
+					<div class="column">
+						<h2 class="mocha-color">Mocha</h2>
+					</div>
+					<div class="column">
+						<h2 class="mockito-color">Mockito</h2>
+					</div>
+				</div>
+			</section>
+
+		</div>
+	</div>
+
+	<!-- Scripts de Reveal.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/zoom/zoom.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/search/search.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			slideNumber: true,
+			progress: true,
+			controls: true,
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
+			plugins: [
+				RevealZoom,
+				RevealNotes,
+				RevealSearch,
+				RevealMarkdown,
+				RevealHighlight
+			],
+			// Configuraciones adicionales
+			autoAnimateDuration: 1.0,
+			autoAnimateEasing: 'ease-out',
+			width: '100%',
+			height: '100%',
+			margin: 0.1,
+			minScale: 0.2,
+			maxScale: 1.5
+		});
+	</script>
+</body>
+
+</html>
